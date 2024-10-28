@@ -1,0 +1,107 @@
+<odoo>
+    <!-- Report action to link the report template with the model -->
+    <record id="action_report_analytic_account" model="ir.actions.report">
+        <field name="name">Analytic Account Report</field>
+        <field name="model">account.analytic.account</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_custom_report.analytic_account_report_template</field>
+        <field name="print_report_name">'Analytic Account Report</field>
+        <field name="binding_model_id" ref="account.model_account_analytic_account"/>
+    </record>
+
+    <!-- QWeb template for the report -->
+    <template id="analytic_account_report_template">
+        <t t-call="web.html_container">
+            <div class="page">
+                <t t-call="web.external_layout">
+                <div class="text-center">
+                    <h2>Analytic Account Report</h2>
+                </div>
+                <table class="table table-bordered" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th class="text-start">Account Name</th>
+                            <th class="text-start">Customer</th>
+                            <th class="text-start">Debit</th>
+                            <th class="text-start">Credit</th>
+                            <th class="text-start">Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="analytic_account">
+                            <tr>
+                                <td class="text-start">
+                                    <t t-esc="analytic_account.name or 'N/A'"/>
+                                </td>
+                                <td class="text-start">
+                                    <t t-esc="analytic_account.partner_id.name"/>
+                                </td>
+                                <td class="text-center">
+                                    <t t-esc="analytic_account.debit"/>
+                                </td>
+                                <td class="text-center">
+                                    <t t-esc="analytic_account.credit"/>
+                                </td>
+                                <td class="text-center">
+                                    <t t-esc="analytic_account.balance"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <record id="action_report_analytic_account_line" model="ir.actions.report">
+        <field name="name">Analytic Account Report Line</field>
+        <field name="model">account.analytic.line</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_custom_report.analytic_account_report_template_line</field>
+        <field name="print_report_name">'Analytic Account Report Line'</field>
+        <field name="binding_model_id" ref="account.model_account_analytic_line"/>
+    </record>
+
+    <template id="analytic_account_report_template_line">
+        <t t-call="web.html_container">
+            <div class="page">
+                <t t-call="web.external_layout">
+                <div class="text-center">
+                    <h2>Analytic Account Report Line</h2>
+                </div>
+                <table class="table table-bordered" style="width: 100%;">
+                    <tbody>
+                        <tr>
+                            <th class="text-start">Project Name</th>
+                            <th class="text-start">Data</th>
+                            <th class="text-start">Description</th>
+                            <th class="text-start">Amount</th>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <t t-foreach="docs" t-as="analytic_account">
+                            <tr>
+                                <td class="text-start">
+                                    <t t-esc="analytic_account.account_id.name"/>
+                                </td>
+                                <td class="text-start">
+                                    <t t-esc="analytic_account.date"/>
+                                </td>
+                                <td class="text-start">
+                                    <t t-esc="analytic_account.name"/>
+                                </td>
+                                <td class="text-center">
+                                    <t t-esc="analytic_account.amount"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                </t>
+            </div>
+        </t>
+    </template>
+
+
+</odoo>
